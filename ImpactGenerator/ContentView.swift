@@ -6,19 +6,21 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    @StateObject var viewModel = ViewModel()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Picker("", selection: $viewModel.feedbackType) {
+                ForEach(FeedbackType.allCases) { feedbackType in
+                    Text(feedbackType.rawValue).tag(feedbackType)
+                }
+            }
+            .pickerStyle(.segmented)
+            Slider(value: $viewModel.intensity, in: 0.0...1.0, label: {})
         }
         .padding()
     }
-}
-
-#Preview {
-    ContentView()
 }
